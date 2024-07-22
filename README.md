@@ -20,7 +20,7 @@ devtools::install_github("liuwd15/scupa")
 
 ### Prepare UCE (using python)
 
-See the vignette [vignette_scupa_ifnb.ipynb](inst/notebook/vignette_scupa_ifnb.ipynb) for a quick tutorial.
+See the vignette [vignette_run_UCE_ifnb.ipynb](inst/notebook/vignette_run_UCE_ifnb.ipynb) for a quick tutorial.
 
 Before running Scupa, it is necessary to generate the UCE embeddings for the input scRNA-seq dataset. Please install UCE (https://github.com/snap-stanford/UCE) and run it on the input dataset.
 
@@ -28,7 +28,7 @@ Before running Scupa, it is necessary to generate the UCE embeddings for the inp
 
 See the vignette [inst/notebook/vignette_scupa_ifnb.ipynb](inst/notebook/vignette_scupa_ifnb.ipynb) for a quick tutorial.
 
-The package schard (https://github.com/cellgeni/schard/) helps convert the UCE output h5ad data to a Seurat object. Otherwise, the users could create a Seurat object with UCE embeddings saved in an assay or dimensional reduction structure on their own.
+The R package schard (https://github.com/cellgeni/schard/) helps convert the UCE output h5ad data to a Seurat object. Otherwise, the users could create a Seurat object with UCE embeddings saved in an assay or dimensional reduction structure on their own.
 
 ```r
 seuobj <- schard::h5ad2seurat('output_uce_adata.h5ad')
@@ -47,7 +47,7 @@ seuobj <- MeasurePolar(seuobj, celltype=input_type, embedding='uce', unpolarized
 
 ## Output
 
-By default, Scupa outputs a Seurat object with the updated metadata. Each cell type has 4~6 polarization states. For each polarization state, the polarization scores (range 0~1), P values, and adjusted P values are calculated for all cells.
+By default, Scupa outputs a Seurat object with the updated metadata. Each cell type has 4-6 polarization states. For each polarization state, the polarization scores (range 0-1), P values, and adjusted P values are calculated for all cells. Larger scores indicate stronger polarization.
 
 The scores and P values can be visualized by Seurat functions FeaturePlot, VlnPlot, etc.
 

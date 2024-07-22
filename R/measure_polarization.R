@@ -10,12 +10,20 @@
 #'
 #' @return A list containing 6 variables:
 #' \describe{
-#'   \item{mean}{The mean of Universial Cell Embeddings of all cells in the training dataset.}
-#'   \item{sd}{The standard deviation of Universial Cell Embeddings of all cells in the training dataset.}
-#'   \item{mean_unpolar}{The mean of Universial Cell Embeddings of unpolarized cells in the training dataset.}
-#'   \item{pc_loadings}{The principal component loadings to transform Universial Cell Embeddings into principal component embeddings.}
-#'   \item{regression_models}{The trained support vector machine models to predict the polarization scores based on principal component embeddings for each cell polarization state.}
-#'   \item{unpolar_responses}{The polarization scores of unpolarized cells in the training dataset. The polarization P values of input data are calculated by comparing to the distribution of these responses.}
+#'   \item{mean}{The mean of Universial Cell Embeddings of all cells in the training
+#'   dataset.}
+#'   \item{sd}{The standard deviation of Universial Cell Embeddings of all cells
+#'   in the training dataset.}
+#'   \item{mean_unpolar}{The mean of Universial Cell Embeddings of unpolarized cells
+#'   in the training dataset.}
+#'   \item{pc_loadings}{The principal component loadings to transform Universial
+#'   Cell Embeddings into principal component embeddings.}
+#'   \item{regression_models}{The trained support vector machine models to predict
+#'   the polarization scores based on principal component embeddings for each cell
+#'   polarization state.}
+#'   \item{unpolar_responses}{The polarization scores of unpolarized cells in the
+#'   training dataset. The polarization P values of input data are calculated by
+#'   comparing to the distribution of these responses.}
 #' }
 #'
 #' @importFrom utils data
