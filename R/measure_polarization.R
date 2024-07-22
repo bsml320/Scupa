@@ -254,7 +254,6 @@ MeasurePolar <- function(object,
     }
     else if (model_class == 'randomForest')
     {
-      require('RandomForest')
       predictions_state <-
         predict(models[[state]], as.matrix(pc_emb), type = 'prob')[, '1']
     }

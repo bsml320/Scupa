@@ -9,18 +9,27 @@ A list with 14 elements. The element names are B, NK, CD8T, CD4T, Treg,
 Tgd, pDC, cDC1, cDC2, MigDC, LC, Macro, Mono, Neu, corresponding to each cell
 type. Each element is a list containing 6 variables:
 \describe{
-\item{mean}{The mean of Universial Cell Embeddings of all cells in the training dataset.}
-\item{sd}{The standard deviation of Universial Cell Embeddings of all cells in the training dataset.}
-\item{mean_unpolar}{The mean of Universial Cell Embeddings of unpolarized cells in the training dataset.}
-\item{pc_loadings}{The principle component loadings to transform Universial Cell Embeddings into principle component embeddings.}
-\item{regression_models}{The trained support vector machine models to predict the polarization scores based on principle component embeddings for each cell polarization state.}
-\item{unpolar_responses}{The polarization scores of unpolarized cells in the training dataset. The polarization P values of input data are calculated by comparing to the distribution of these responses.}
+\item{mean}{The mean of Universial Cell Embeddings of all cells in the training
+dataset.}
+\item{sd}{The standard deviation of Universial Cell Embeddings of all cells
+in the training dataset.}
+\item{mean_unpolar}{The mean of Universial Cell Embeddings of unpolarized cells
+in the training dataset.}
+\item{pc_loadings}{The principle component loadings to transform Universial
+Cell Embeddings into principle component embeddings.}
+\item{regression_models}{The trained support vector machine models to predict
+the polarization scores based on principle component embeddings for each cell
+polarization state.}
+\item{unpolar_responses}{The polarization scores of unpolarized cells in the
+training dataset. The polarization P values of input data are calculated by
+comparing to the distribution of these responses.}
 }
 }
 \usage{
 polar_params
 }
 \description{
-A list of trained support vector machine models and parameters of training dataset for measuring polarization scores and P values in other dataset.
+A list of trained support vector machine models and parameters of training dataset
+for measuring polarization scores and P values in other dataset.
 }
 \keyword{datasets}

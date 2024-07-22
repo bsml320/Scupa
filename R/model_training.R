@@ -215,10 +215,9 @@ CalculateParams <- function(object,
 
     if(classify_method == 'logistic')
     {
-      require('strip')
       df <- data.frame(train_X)
       df$Y <- train_Y
-      model <- strip(glm(Y ~ ., df, family = 'binomial'),
+      model <- strip::strip(glm(Y ~ ., df, family = 'binomial'),
                      keep=c('predict','print'))
       if(semi_supervised)
       {
@@ -305,8 +304,7 @@ CalculateParams <- function(object,
 
     else if(classify_method == 'rf')
     {
-      require('RandomForest')
-      model <- randomForest(train_X,
+      model <- randomForest::randomForest(train_X,
                             factor(train_Y, levels=c(0,1)))
       if(semi_supervised)
       {
@@ -322,7 +320,7 @@ CalculateParams <- function(object,
         train_Y_extended <- train_Y_extended[cell_kept]
         sample_weights <- ifelse(train_Y_extended==0,
                                  1, sum(train_Y_extended==0)/sum(train_Y_extended==1))
-        model <- randomForest(train_X_extended,
+        model <- randomForest::randomForest(train_X_extended,
                               factor(train_Y_extended), levels=c(0,1))
       }
       unpolar_prediction <- predict(model, as.matrix(emb_unpolar), type='prob')[,'1']
