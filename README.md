@@ -26,7 +26,7 @@ Before running Scupa, it is necessary to generate the UCE embeddings for the inp
 
 ### Run Scupa (using R)
 
-See the vignette [inst/notebook/vignette_scupa_ifnb.ipynb](inst/notebook/vignette_scupa_ifnb.ipynb) for a quick tutorial.
+See the vignette [vignette_scupa_ifnb.ipynb](inst/notebook/vignette_scupa_ifnb.ipynb) for a quick tutorial.
 
 The R package schard (https://github.com/cellgeni/schard/) helps convert the UCE output h5ad data to a Seurat object. Otherwise, the users could create a Seurat object with UCE embeddings saved in an assay or dimensional reduction structure on their own.
 
