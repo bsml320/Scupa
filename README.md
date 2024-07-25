@@ -13,7 +13,7 @@ With UCE's property, Scupa can be applied to various animals for unified polariz
 ## Installation
 
 ```r
-devtools::install_github("liuwd15/scupa")
+devtools::install_github("bsml320/scupa")
 ```
 
 ## Usage and vignettes
@@ -47,15 +47,15 @@ seuobj <- MeasurePolar(seuobj, celltype=input_type, embedding='uce', unpolarized
 
 ## Output
 
-By default, Scupa outputs a Seurat object with the updated metadata. Each cell type has 4-6 polarization states. For each polarization state, the polarization scores (range 0-1), P values, and adjusted P values are calculated for all cells. Larger scores indicate stronger polarization.
+By default, Scupa outputs a Seurat object with the updated metadata. Each cell type has 4-6 polarization states. For each polarization state, the polarization scores (range 0-1), p-values, and adjusted p-values are calculated for all cells. Larger scores indicate stronger polarization.
 
-The scores and P values can be visualized by Seurat functions FeaturePlot, VlnPlot, etc.
+The scores and p-values can be visualized by Seurat functions FeaturePlot, VlnPlot, etc.
 
 ## Citations
 
 If you use Scupa, please consider citing following papers:
 
-* Liu W, Zhao Z. Scupa: immune cell polarization analysis using single-cell foundation model. BioRxiv. 2024. doi: comming soon.
+* Liu W, Zhao Z. Scupa: immune cell polarization analysis using the single-cell foundation model. BioRxiv. 2024. doi: comming soon.
 * Cui A, Huang T, Li S, et al. Dictionary of immune responses to cytokines at single-cell resolution. Nature. 2024;625(7994):377-384. doi:10.1038/s41586-023-06816-9
 * Rosen Y, Roohani Y, et al. Universal Cell Embeddings: A Foundation Model for Cell Biology. BioRxiv. 2023. doi: 10.1101/2023.11.28.568918
 
