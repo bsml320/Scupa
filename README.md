@@ -24,7 +24,7 @@ See the vignette [vignette_run_UCE_ifnb.ipynb](inst/notebook/vignette_run_UCE_if
 
 Before running Scupa, it is necessary to generate the UCE embeddings for the input scRNA-seq dataset. Please install UCE (https://github.com/snap-stanford/UCE) and run it on the input dataset.
 
-### Running Scupa (using R)
+### Run Scupa (using R)
 
 See the vignette [inst/notebook/vignette_scupa_ifnb.ipynb](inst/notebook/vignette_scupa_ifnb.ipynb) for a quick tutorial.
 
