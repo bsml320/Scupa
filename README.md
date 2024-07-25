@@ -58,3 +58,4 @@ If you use Scupa, please consider citing following papers:
 * Liu W, Zhao Z. Scupa: immune cell polarization analysis using single-cell foundation model. BioRxiv. 2024. doi: comming soon.
 * Cui A, Huang T, Li S, et al. Dictionary of immune responses to cytokines at single-cell resolution. Nature. 2024;625(7994):377-384. doi:10.1038/s41586-023-06816-9
 * Rosen Y, Roohani Y, et al. Universal Cell Embeddings: A Foundation Model for Cell Biology. BioRxiv. 2023. doi: 10.1101/2023.11.28.568918
+
