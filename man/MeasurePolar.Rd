@@ -8,9 +8,9 @@ MeasurePolar(
   object,
   celltype,
   embedding = "uce",
-  pc = 1:20,
   unpolarized_cell = NA,
   return.df = FALSE,
+  pc = 1:20,
   verbose = TRUE
 )
 }
@@ -27,15 +27,17 @@ cDC1, cDC2, MigDC, LC, Macro, Mono, Neu.}
 embeddings from the single-cell foundation model in the Seurat object.
 Default: uce.}
 
-\item{pc}{The index of principal component to be used by machine learning models.
-Default: 1:20.}
-
 \item{unpolarized_cell}{The name of cells that are considered unpolarized cells.
 See details for selecting unpolarized cells. Default: NA.}
 
 \item{return.df}{Whether to return the results as a dataframe. If TRUE,
 return a dataframe. Else, return the Seurat object with updated meta.data.
 Default: FALSE.}
+
+\item{pc}{The index of principal component to be used by machine learning models.
+Default: 1:20. DO NOT change this parameter if you uses the trained model provided
+in the package! Only change it when you have trained custom models using
+\code{CalculateParams}.}
 
 \item{verbose}{Whether to message the progress in different polarization states.
 Default: TRUE.}

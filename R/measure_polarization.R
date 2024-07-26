@@ -89,13 +89,15 @@ LoadPolarParams <- function(celltype,
 #' @param embedding The name of dimension reduction or assay saving the cell
 #' embeddings from the single-cell foundation model in the Seurat object.
 #' Default: uce.
-#' @param pc The index of principal component to be used by machine learning models.
-#' Default: 1:20.
 #' @param unpolarized_cell The name of cells that are considered unpolarized cells.
 #' See details for selecting unpolarized cells. Default: NA.
 #' @param return.df Whether to return the results as a dataframe. If TRUE,
 #' return a dataframe. Else, return the Seurat object with updated meta.data.
 #' Default: FALSE.
+#' @param pc The index of principal component to be used by machine learning models.
+#' Default: 1:20. DO NOT change this parameter if you uses the trained model provided
+#' in the package! Only change it when you have trained custom models using
+#' \code{CalculateParams}.
 #' @param verbose Whether to message the progress in different polarization states.
 #' Default: TRUE.
 #'
@@ -156,9 +158,9 @@ LoadPolarParams <- function(celltype,
 MeasurePolar <- function(object,
                          celltype,
                          embedding = 'uce',
-                         pc = 1:20,
                          unpolarized_cell = NA,
                          return.df = FALSE,
+                         pc = 1:20,
                          verbose = TRUE)
 {
   if (!celltype %in% c(
