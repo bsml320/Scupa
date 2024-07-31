@@ -188,9 +188,18 @@ MeasurePolar <- function(object,
   saved_params <- LoadPolarParams(celltype,
                                   verbose = verbose)
   if(embedding %in% Reductions(object))
+  {
     input_emb <- t(Embeddings(object, reduction=embedding))
+  }
   else if(embedding %in% Assays(object))
+  {
     input_emb <- object[[embedding]]@data
+  }
+  else if('Xuce_' %in% Reductions(object))
+  {
+    message('Embedding', embedding, 'not found in Reductions and Assays. Using Xuce_ in Reductions!')
+    input_emb <- t(Embeddings(object, reduction='Xuce_'))
+  }
   else
     stop(
       paste('Embedding', embedding, 'not found in Reductions and Assays. Please input the correct embedding name!')
