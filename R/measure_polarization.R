@@ -61,8 +61,8 @@ LoadPolarParams <- function(celltype,
   ))
   {
     stop(
-      'celltype must be one of: B, NK, CD8T, CD4T, Treg, Tgd, pDC,
-      cDC1, cDC2, MigDC, LC, Macro, Mono, Neu.'
+      'celltype must be one of:
+      B, NK, CD8T, CD4T, Treg, Tgd, pDC, cDC1, cDC2, MigDC, LC, Macro, Mono, Neu.'
     )
   }
 
@@ -181,8 +181,8 @@ MeasurePolar <- function(object,
   ))
   {
     stop(
-      'celltype must be one of: B, NK, CD8T, CD4T, Treg, Tgd, pDC,
-         cDC1, cDC2, MigDC, LC, Macro, Mono, Neu.'
+      'celltype must be one of:
+      B, NK, CD8T, CD4T, Treg, Tgd, pDC, cDC1, cDC2, MigDC, LC, Macro, Mono, Neu.'
     )
   }
   saved_params <- LoadPolarParams(celltype,
