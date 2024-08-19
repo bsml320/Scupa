@@ -1,8 +1,8 @@
 # Scupa
 
-Scupa is an R package for immune cell polarization analysis of scRNA-seq data.
+Scupa is an R package for immune cell polarization assessment of scRNA-seq data.
 
-Scupa relies on Universial Cell Embedding (UCE) to measure the polarization of 14 immune cell types:
+Scupa relies on the Universial Cell Embedding (UCE) to assess the polarization of 14 immune cell types from the Immune Dictionary:
 
 B, NK, CD8T, CD4T, Treg, Tgd, pDC, cDC1, cDC2, MigDC, LC (Langerhans cell), Macrophage, Monocyte, Neutrophil.
 
@@ -13,18 +13,22 @@ With UCE's property, Scupa can be applied to various animals for unified polariz
 ## Installation
 
 ```r
-devtools::install_github("bsml320/scupa")
+if (!require("remotes", quietly = TRUE))
+    install.packages("remotes")
+remotes::install_github("bsml320/scupa")
 ```
 
 ## Usage and vignettes
 
-### Prepare UCE (using python)
+### Step 1. Prepare UCEs (using python)
 
 See the vignette [vignette_run_UCE_ifnb.ipynb](inst/notebook/vignette_run_UCE_ifnb.ipynb) for a quick tutorial.
 
 Before running Scupa, it is necessary to generate the UCE embeddings for the input scRNA-seq dataset. Please install UCE (https://github.com/snap-stanford/UCE) and run it on the input dataset.
 
-### Run Scupa (using R)
+This step is **required**! Scupa cannot run on a dataset without UCE embeddings. 
+
+### Step 2. Run Scupa (using R)
 
 See the vignette [vignette_scupa_ifnb.ipynb](inst/notebook/vignette_scupa_ifnb.ipynb) for a quick tutorial.
 
@@ -47,7 +51,11 @@ seuobj <- MeasurePolar(seuobj, celltype=input_type, embedding='uce', unpolarized
 
 ## Output
 
-By default, Scupa outputs a Seurat object with the updated metadata. Each cell type has 4-6 polarization states. For each polarization state, the polarization scores (range 0-1), p-values, and adjusted p-values are calculated for all cells. Larger scores indicate stronger polarization.
+By default, Scupa outputs a Seurat object with the updated metadata. Each cell type has 4-6 polarization states. For each polarization state, Scupa outputs the following variables for all cells:
+
+1. the polarization scores (range 0-1). Larger scores indicate stronger polarization. 
+2. p-values. p=0.05 should serve as a good threshold for identifying significantly polarized cells in most datasets.
+3. adjusted p-values using BH procedure. 
 
 The scores and p-values can be visualized by Seurat functions FeaturePlot, VlnPlot, etc.
 
@@ -55,7 +63,7 @@ The scores and p-values can be visualized by Seurat functions FeaturePlot, VlnPl
 
 If you use Scupa, please consider citing following papers:
 
-* Liu W, Zhao Z. Scupa: immune cell polarization analysis using the single-cell foundation model. BioRxiv. 2024. doi: comming soon.
-* Cui A, Huang T, Li S, et al. Dictionary of immune responses to cytokines at single-cell resolution. Nature. 2024;625(7994):377-384. doi:10.1038/s41586-023-06816-9
-* Rosen Y, Roohani Y, et al. Universal Cell Embeddings: A Foundation Model for Cell Biology. BioRxiv. 2023. doi: 10.1101/2023.11.28.568918
+* Liu W, Zhao Z. Scupa: Single-cell unified polarization assessment of immune cells using the single-cell foundation model. bioRxiv. 2024. doi: [10.1101/2024.08.15.608093](https://doi.org/10.1101/2024.08.15.608093).
+* Cui A, Huang T, Li S, et al. Dictionary of immune responses to cytokines at single-cell resolution. Nature. 2024;625(7994):377-384. doi: [10.1038/s41586-023-06816-9](https://doi.org/10.1038/s41586-023-06816-9)
+* Rosen Y, Roohani Y, et al. Universal Cell Embeddings: A Foundation Model for Cell Biology. bioRxiv. 2023. doi: [10.1101/2023.11.28.568918](https://doi.org/10.1101/2023.11.28.568918)
 

@@ -4,10 +4,10 @@ Version: 1.0.0
 Authors@R: 
     person("Wendao", "Liu", , "wendao.liu@uth.tmc.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-5124-9338"))
-Description: This package provides trained machin learning models and methods to
-    perform immune cell polarization analysis. The model uses Universial Cell 
-    Embeddings (https://github.com/snap-stanford/UCE) to derive polarization 
-    scores and statistical significance of polarization states defined in Immune
+Description: This package provides trained machine learning models and methods to
+    assess immune cell polarization. The models use Universial Cell Embeddings 
+    (https://github.com/snap-stanford/UCE) to derive polarization scores and 
+    statistical significance of polarization states defined in Immune
     Dictionary (Cui et al. Nature. 2024).
 Depends: 
     R (>= 4.0.0)

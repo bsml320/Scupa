@@ -94,6 +94,10 @@ FeaturePlot(cd8t, c('T8.a_p','T8.b_p','T8.c_p','T8.e_p','T8.f_p'))
 
 }
 \references{
+Liu W, Zhao Z. Scupa: Single-cell unified polarization assessment of immune
+cells using the single-cell foundation model. bioRxiv. 2024. doi:
+10.1101/2024.08.15.608093
+
 Cui A, Huang T, Li S, et al. Dictionary of immune responses to
 cytokines at single-cell resolution. Nature. 2024;625(7994):377-384.
 doi:10.1038/s41586-023-06816-9

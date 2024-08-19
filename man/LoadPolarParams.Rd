@@ -36,6 +36,10 @@ comparing to the distribution of these responses.}
 \description{
 Load the trained models and parameters for measuring the polarization in a cell type.
 }
+\details{
+This function will load a global variable named 'polar_params'
+containing trained machine learning models and parameters.
+}
 \examples{
 params_cd8t <- LoadPolarParams('CD8T')
 

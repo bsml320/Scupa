@@ -26,6 +26,9 @@
 #'   comparing to the distribution of these responses.}
 #' }
 #'
+#' @details This function will load a global variable named 'polar_params'
+#' containing trained machine learning models and parameters.
+#'
 #' @importFrom utils data
 #' @export
 #'
@@ -126,7 +129,12 @@ LoadPolarParams <- function(celltype,
 #' cells in several independent datasets, potentially benefiting from UCE's
 #' inherent ability in reducing technical variations.
 #'
-#' @references Cui A, Huang T, Li S, et al. Dictionary of immune responses to
+#' @references
+#' Liu W, Zhao Z. Scupa: Single-cell unified polarization assessment of immune
+#' cells using the single-cell foundation model. bioRxiv. 2024. doi:
+#' 10.1101/2024.08.15.608093
+#'
+#' Cui A, Huang T, Li S, et al. Dictionary of immune responses to
 #' cytokines at single-cell resolution. Nature. 2024;625(7994):377-384.
 #' doi:10.1038/s41586-023-06816-9
 #'
