@@ -53,7 +53,7 @@ seuobj <- MeasurePolar(seuobj, celltype=input_type, embedding='uce', unpolarized
 
 By default, Scupa outputs a Seurat object with the updated metadata. Each cell type has 4-6 polarization states. For each polarization state, Scupa outputs the following variables for all cells:
 
-1. the polarization scores (range 0-1). Larger scores indicate stronger polarization. 
+1. polarization scores (range 0-1). Larger scores indicate stronger polarization. 
 2. p-values. p=0.05 should serve as a good threshold for identifying significantly polarized cells in most datasets.
 3. adjusted p-values using BH procedure. 
 
@@ -63,7 +63,7 @@ The scores and p-values can be visualized by Seurat functions FeaturePlot, VlnPl
 
 If you use Scupa, please consider citing following papers:
 
-* Liu W, Zhao Z. Scupa: Single-cell unified polarization assessment of immune cells using the single-cell foundation model. bioRxiv. 2024. doi: [10.1101/2024.08.15.608093](https://doi.org/10.1101/2024.08.15.608093).
+* Liu W, Zhao Z. Scupa: Single-cell unified polarization assessment of immune cells using the single-cell foundation model. bioRxiv. 2024. doi: [10.1101/2024.08.15.608093](https://doi.org/10.1101/2024.08.15.608093)
 * Cui A, Huang T, Li S, et al. Dictionary of immune responses to cytokines at single-cell resolution. Nature. 2024;625(7994):377-384. doi: [10.1038/s41586-023-06816-9](https://doi.org/10.1038/s41586-023-06816-9)
 * Rosen Y, Roohani Y, et al. Universal Cell Embeddings: A Foundation Model for Cell Biology. bioRxiv. 2023. doi: [10.1101/2023.11.28.568918](https://doi.org/10.1101/2023.11.28.568918)
 
