@@ -10,6 +10,8 @@ With UCE's property, Scupa can be applied to various animals for unified polariz
 
 ![Scupa design and immune cell polarization states](inst/figure/scupa.png)
 
+The framework of Scupa and immune cell polarization states with driving cytokines
+
 ## Installation
 
 ```r
