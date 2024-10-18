@@ -61,6 +61,12 @@ By default, Scupa outputs a Seurat object with the updated metadata. Each cell t
 
 The scores and p-values can be visualized by Seurat functions FeaturePlot, VlnPlot, etc.
 
+## Test datasets
+
+The datasets with UCE embeddings, along with the code to generate results in our manuscript, are available at:
+
+https://doi.org/10.5281/zenodo.13312248
+
 ## Citations
 
 If you use Scupa, please consider citing following papers:
