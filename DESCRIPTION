@@ -1,6 +1,6 @@
 Package: scupa
 Title: Single-cell Unified Polarization analysis
-Version: 1.1.0
+Version: 1.1.1
 Authors@R: 
     person("Wendao", "Liu", , "wendao.liu@uth.tmc.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-5124-9338"))

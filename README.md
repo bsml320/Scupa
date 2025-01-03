@@ -68,6 +68,20 @@ The datasets with UCE embeddings, along with the code to generate results in our
 
 https://doi.org/10.5281/zenodo.13312247
 
+## Support for other single-cell foundation models
+
+Scupa now supports other two single-cell foundation models, scGPT and scFoundation, instead of UCE. However, UCE has advantages over the other two models and we recommend using Scupa with UCE if possible.
+
+If you would like to use other single-cell foundation models, run the following code before running *MeasurePolar*. Scupa will use the loaded variable *polar_params* for polarization assessment.
+
+```r
+# If you use cell embeddings from scGPT (generated using continual pretrained model)
+polar_params <- readRDS(url('https://github.com/bsml320/Scupa/raw/refs/heads/master/inst/extdata/polar_params_scgpt.rds'))
+
+# If you use cell embeddings from scFoundation
+polar_params <- readRDS(url('https://github.com/bsml320/Scupa/raw/refs/heads/master/inst/extdata/polar_params_scfoundation.rds'))
+```
+
 ## Citations
 
 If you use Scupa, please consider citing following papers:
