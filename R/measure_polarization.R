@@ -8,7 +8,7 @@
 #' @param verbose Whether to message the loading progress.
 #' Default: TRUE.
 #'
-#' @return A list containing 6 variables:
+#' @return A list containing 7 variables:
 #' \describe{
 #'   \item{mean}{The mean of Universial Cell Embeddings of all cells in the training
 #'   dataset.}
@@ -18,12 +18,14 @@
 #'   in the training dataset.}
 #'   \item{pc_loadings}{The principal component loadings to transform Universial
 #'   Cell Embeddings into principal component embeddings.}
-#'   \item{regression_models}{The trained support vector machine models to predict
-#'   the polarization scores based on principal component embeddings for each cell
-#'   polarization state.}
+#'   \item{models}{The trained machine learning models to predict the polarization
+#'   scores based on principal component embeddings for each cell polarization
+#'   state.}
 #'   \item{unpolar_responses}{The polarization scores of unpolarized cells in the
-#'   training dataset. The polarization P values of input data are calculated by
-#'   comparing to the distribution of these responses.}
+#'   training dataset. The probability of input data being unpolarized is calculated
+#'   by comparing to the distribution of these responses.}
+#'   \item{calibration_quantiles}{The 1~99 quantiles of nonconformity scores in
+#'   calibration data, used for conformal prediction.}
 #' }
 #'
 #' @details This function will load a global variable named 'polar_params'
@@ -81,7 +83,8 @@ LoadPolarParams <- function(celltype,
 #'
 #' This is the main function to measure the polarization of immune cells based on
 #' their Universial Cell Embeddings. The function uses trained machine learning
-#' models to predict the polarization of cells in the input data.
+#' models to predict the polarization of cells in the input data. Conformal
+#' prediction is employed to make statistically valid predictions.
 #'
 #' @param object A Seurat object with an assay of UCE embedding for immune cell
 #' polarization measurement. It is recommended that the object only contain one
@@ -101,15 +104,25 @@ LoadPolarParams <- function(celltype,
 #' Default: 1:20. DO NOT change this parameter if you uses the trained model provided
 #' in the package! Only change it when you have trained custom models using
 #' \code{CalculateParams}.
+#' @param error_level The error level for conformal prediction. Increasing this
+#' parameter will make the prediction less likely to be both classes ('Intermediate'),
+#' but also increase the chance of empty class ('Uncertain'). Default: 0.05.
+#' @param unpolarized_prob Whether to calculate the estimated probability of input
+#' data being unpolarized. The values are calculated by comparing the predicted
+#' polarization scores to unpolarized cells' distribution of polarization scores.
+#' Default: FALSE.
 #' @param verbose Whether to message the progress in different polarization states.
 #' Default: TRUE.
 #'
 #' @return Return either a dataframe or a Seurat object with updated meta.data,
 #' depending on param return.df.
-#' The dataframe includes 3 * N(polarization states) columns.
+#' By default, the dataframe includes 2 * #(polarization states) columns.
 #' For each cell type, there are 4~6 polarization states.
-#' For each polarization state, the polarization scores (range 0~1), P values,
-#' and adjusted P values are calculated for all cells.
+#' For each polarization state, there is a column of polarization scores (range 0~1)
+#' and a column of state predictions (‘Polarized’, ‘Intermediate’, ‘Unpolarized’,
+#' or ‘Uncertain’) for all cells.
+#' If parameter \code{unpolarized_prob} is TRUE, an additional column of probability
+#' being unpolarized for each polarization state will be added to the dataframe.
 #' For details of polarization states, please refer to \code{data(polar_states)}
 #' and the reference (Cui et al. Nature. 2024).
 #'
@@ -159,8 +172,8 @@ LoadPolarParams <- function(celltype,
 #' unpolarized_cell=WhichCells(cd8t, expression = stim == 'CTRL'))
 #' # Plot the CD8+ T cell polarization scores
 #' FeaturePlot(cd8t, c('T8.a_score','T8.b_score','T8.c_score','T8.e_score','T8.f_score'))
-#' # Plot the CD8+ T cell polarization P values
-#' FeaturePlot(cd8t, c('T8.a_p','T8.b_p','T8.c_p','T8.e_p','T8.f_p'))
+#' # Plot the CD8+ T cell polarization predictions
+#' FeaturePlot(cd8t, c('T8.a_pred','T8.b_pred','T8.c_pred','T8.e_pred','T8.f_pred'))
 #' }
 #'
 MeasurePolar <- function(object,
@@ -169,6 +182,8 @@ MeasurePolar <- function(object,
                          unpolarized_cell = NA,
                          return.df = FALSE,
                          pc = 1:20,
+                         error_level = 0.05,
+                         unpolarized_prob = FALSE,
                          verbose = TRUE)
 {
   if (!celltype %in% c(
@@ -193,6 +208,7 @@ MeasurePolar <- function(object,
       B, NK, CD8T, CD4T, Treg, Tgd, pDC, cDC1, cDC2, MigDC, LC, Macro, Mono, Neu.'
     )
   }
+  # Load the saved machine learning models and parameters
   saved_params <- LoadPolarParams(celltype,
                                   verbose = verbose)
   if(embedding %in% Reductions(object))
@@ -238,7 +254,7 @@ MeasurePolar <- function(object,
   pc_emb <- data.frame(t(as.matrix(scaled_emb)) %*%
                          saved_params$pc_loadings)[, paste('PC', pc, sep='_')]
   df_polar <- list()
-  models <- saved_params$regression_models
+  models <- saved_params$models
   unpolar_responses <- saved_params$unpolar_responses
 
   # Predict the polarization scores using trained models
@@ -260,8 +276,7 @@ MeasurePolar <- function(object,
       {
         predictions_state <-
           predict(models[[state]], as.matrix(pc_emb))
-        predictions_state[predictions_state < 0] <- 0
-        predictions_state[predictions_state > 1] <- 1
+        predictions_state <- pmax(pmin(predictions_state, 1), 0)
       }
       else if (models[[1]]$type == 0)
       {
@@ -276,20 +291,36 @@ MeasurePolar <- function(object,
       predictions_state <-
         predict(models[[state]], as.matrix(pc_emb), type = 'prob')[, '1']
     }
-    # calculate the P value of each cell by comparing with the distribution of
-    # scores of unpolarized cells in the training data
-    pvals <- rep(1, length(predictions_state))
-    for (i in 1:length(predictions_state))
+    predictions_state <- as.vector(predictions_state)
+    df_polar[[paste(state, 'score', sep = '_')]] <- predictions_state
+
+    # conformal prediction to get predicted polarization states
+    cal_quantiles <- saved_params$calibration_quantiles[[state]]
+    quantile_threshold <- cal_quantiles[as.integer(error_level*100)]
+    # conformal_pred values:
+    # 1: empty class, 2: unpolarized class,
+    # 3: polarized class; 4: both classes
+    conformal_pred <- 2*(predictions_state > 1 - quantile_threshold) +
+                      (predictions_state < quantile_threshold) + 1
+    conformal_pred <- factor(c('Uncertain','Unpolarized',
+                        'Polarized', 'Intermediate')[conformal_pred],
+               levels=c('Polarized', 'Intermediate','Unpolarized','Uncertain'))
+    df_polar[[paste(state, 'pred', sep = '_')]] <- conformal_pred
+    # calculate the probability of each cell being unpolarized by comparing with
+    # the unpolarized cells' score distribution in the reference data
+    if(unpolarized_prob)
     {
-      pvals[i] <-
-        1 - mean(predictions_state[i] >= unpolar_responses[[state]])
+      pvals <- rep(1, length(predictions_state))
+      for (i in 1:length(predictions_state))
+      {
+        pvals[i] <-
+          1 - mean(predictions_state[i] >= unpolar_responses[[state]])
+      }
+      df_polar[[paste(state, 'p_unpolar', sep = '_')]] <- pvals
+      #df_polar[[paste(state, 'padj', sep = '_')]] <-
+      #  p.adjust(pvals, method = 'BH')
     }
 
-    df_polar[[paste(state, 'score', sep = '_')]] <-
-      as.vector(predictions_state)
-    df_polar[[paste(state, 'p', sep = '_')]] <- pvals
-    df_polar[[paste(state, 'padj', sep = '_')]] <-
-      p.adjust(pvals, method = 'BH')
   }
   df_polar <- data.frame(df_polar)
   rownames(df_polar) <- colnames(input_emb)

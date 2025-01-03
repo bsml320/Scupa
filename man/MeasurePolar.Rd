@@ -11,6 +11,8 @@ MeasurePolar(
   unpolarized_cell = NA,
   return.df = FALSE,
   pc = 1:20,
+  error_level = 0.05,
+  unpolarized_prob = FALSE,
   verbose = TRUE
 )
 }
@@ -39,23 +41,36 @@ Default: 1:20. DO NOT change this parameter if you uses the trained model provid
 in the package! Only change it when you have trained custom models using
 \code{CalculateParams}.}
 
+\item{error_level}{The error level for conformal prediction. Increasing this
+parameter will make the prediction less likely to be both classes ('Intermediate'),
+but also increase the chance of empty class ('Uncertain'). Default: 0.05.}
+
+\item{unpolarized_prob}{Whether to calculate the estimated probability of input
+data being unpolarized. The values are calculated by comparing the predicted
+polarization scores to unpolarized cells' distribution of polarization scores.
+Default: FALSE.}
+
 \item{verbose}{Whether to message the progress in different polarization states.
 Default: TRUE.}
 }
 \value{
 Return either a dataframe or a Seurat object with updated meta.data,
 depending on param return.df.
-The dataframe includes 3 * N(polarization states) columns.
+By default, the dataframe includes 2 * #(polarization states) columns.
 For each cell type, there are 4~6 polarization states.
-For each polarization state, the polarization scores (range 0~1), P values,
-and adjusted P values are calculated for all cells.
+For each polarization state, there is a column of polarization scores (range 0~1)
+and a column of state predictions (‘Polarized’, ‘Intermediate’, ‘Unpolarized’,
+or ‘Uncertain’) for all cells.
+If parameter \code{unpolarized_prob} is TRUE, an additional column of probability
+being unpolarized for each polarization state will be added to the dataframe.
 For details of polarization states, please refer to \code{data(polar_states)}
 and the reference (Cui et al. Nature. 2024).
 }
 \description{
 This is the main function to measure the polarization of immune cells based on
 their Universial Cell Embeddings. The function uses trained machine learning
-models to predict the polarization of cells in the input data.
+models to predict the polarization of cells in the input data. Conformal
+prediction is employed to make statistically valid predictions.
 }
 \details{
 Providing the unpolarized cell names is optional, but highly recommended.
@@ -88,8 +103,8 @@ cd8t <- MeasurePolar(cd8t, celltype='CD8T',
 unpolarized_cell=WhichCells(cd8t, expression = stim == 'CTRL'))
 # Plot the CD8+ T cell polarization scores
 FeaturePlot(cd8t, c('T8.a_score','T8.b_score','T8.c_score','T8.e_score','T8.f_score'))
-# Plot the CD8+ T cell polarization P values
-FeaturePlot(cd8t, c('T8.a_p','T8.b_p','T8.c_p','T8.e_p','T8.f_p'))
+# Plot the CD8+ T cell polarization predictions
+FeaturePlot(cd8t, c('T8.a_pred','T8.b_pred','T8.c_pred','T8.e_pred','T8.f_pred'))
 }
 
 }

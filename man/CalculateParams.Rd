@@ -8,7 +8,8 @@ CalculateParams(
   object,
   embedding = "uce",
   pc = 1:20,
-  classify_method = "svr",
+  classify_method = "svc",
+  calibration_fold = 5,
   semi_supervised = FALSE,
   verbose = TRUE
 )
@@ -25,6 +26,9 @@ machine learning models. Default: 1:20.}
 \item{classify_method}{A string from one of 'logistic','svc','svr','rf'. The
 machine learning models to classify polarized cells and unpolarized cells.
 Default: svr.}
+
+\item{calibration_fold}{A number of folds for splitting data in conformal prediction,
+similar as K-fold cross validation. Default: 5.}
 
 \item{semi_supervised}{Logical. Whether to use the semi-supervised approach in
 training machine learning models. If TRUE, the unlabeled cells from samples
@@ -45,17 +49,20 @@ in the training dataset.}
 in the training dataset.}
 \item{pc_loadings}{The principal component loadings to transform Universial
 Cell Embeddings into principal component embeddings.}
-\item{regression_models}{The trained machine learning models to predict the
+\item{models}{The trained machine learning models to predict the
 polarization scores based on principal component embeddings for each cell
 polarization state.}
 \item{unpolar_responses}{The polarization scores of unpolarized cells in the
-training dataset. The polarization P values of input data are calculated by
-comparing to the distribution of these responses.}
+training dataset. The probability of input data being unpolarized is calculated
+by comparing to the distribution of these responses.}
+\item{calibration_quantiles}{The 1~99 quantiles of nonconformity scores in
+calibration data, used for conformal prediction.}
 }
 }
 \description{
 Train machine learning models and calculating some necessary parameters to
-measure immune cell polarization. The models are trained using the output from
+measure immune cell polarization. Conformal prediction is employed to make
+statistically valid predictions. The models are trained using the output from
 \code{AssignStates}.
 }
 \details{

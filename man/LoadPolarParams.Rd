@@ -15,7 +15,7 @@ Must be one of: 'B', 'NK', 'CD8T', 'CD4T', 'Treg', 'Tgd', 'pDC',
 Default: TRUE.}
 }
 \value{
-A list containing 6 variables:
+A list containing 7 variables:
 \describe{
 \item{mean}{The mean of Universial Cell Embeddings of all cells in the training
 dataset.}
@@ -25,12 +25,14 @@ in the training dataset.}
 in the training dataset.}
 \item{pc_loadings}{The principal component loadings to transform Universial
 Cell Embeddings into principal component embeddings.}
-\item{regression_models}{The trained support vector machine models to predict
-the polarization scores based on principal component embeddings for each cell
-polarization state.}
+\item{models}{The trained machine learning models to predict the polarization
+scores based on principal component embeddings for each cell polarization
+state.}
 \item{unpolar_responses}{The polarization scores of unpolarized cells in the
-training dataset. The polarization P values of input data are calculated by
-comparing to the distribution of these responses.}
+training dataset. The probability of input data being unpolarized is calculated
+by comparing to the distribution of these responses.}
+\item{calibration_quantiles}{The 1~99 quantiles of nonconformity scores in
+calibration data, used for conformal prediction.}
 }
 }
 \description{

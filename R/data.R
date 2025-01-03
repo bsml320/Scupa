@@ -22,7 +22,7 @@
 #'
 #' @format A list with 14 elements. The element names are B, NK, CD8T, CD4T, Treg,
 #' Tgd, pDC, cDC1, cDC2, MigDC, LC, Macro, Mono, Neu, corresponding to each cell
-#' type. Each element is a list containing 6 variables:
+#' type. Each element is a list containing 7 variables:
 #' \describe{
 #'   \item{mean}{The mean of Universial Cell Embeddings of all cells in the training
 #'   dataset.}
@@ -30,14 +30,16 @@
 #'   in the training dataset.}
 #'   \item{mean_unpolar}{The mean of Universial Cell Embeddings of unpolarized cells
 #'   in the training dataset.}
-#'   \item{pc_loadings}{The principle component loadings to transform Universial
-#'   Cell Embeddings into principle component embeddings.}
-#'   \item{regression_models}{The trained support vector machine models to predict
-#'   the polarization scores based on principle component embeddings for each cell
-#'   polarization state.}
+#'   \item{pc_loadings}{The principal component loadings to transform Universial
+#'   Cell Embeddings into principal component embeddings.}
+#'   \item{models}{The trained machine learning models to predict the polarization
+#'   scores based on principal component embeddings for each cell polarization
+#'   state.}
 #'   \item{unpolar_responses}{The polarization scores of unpolarized cells in the
-#'   training dataset. The polarization P values of input data are calculated by
-#'   comparing to the distribution of these responses.}
+#'   training dataset. The probability of input data being unpolarized is calculated
+#'   by comparing to the distribution of these responses.}
+#'   \item{calibration_quantiles}{The 1~99 quantiles of nonconformity scores in
+#'   calibration data, used for conformal prediction.}
 #' }
 #'
 "polar_params"
