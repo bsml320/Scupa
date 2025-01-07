@@ -56,7 +56,7 @@ seuobj <- MeasurePolar(seuobj, celltype=input_type, embedding='uce', unpolarized
 By default, Scupa outputs a Seurat object with the updated metadata. Each cell type has 4-6 polarization states. For each polarization state, Scupa outputs the following variables for all cells:
 
 1. polarization scores (range 0-1). Larger scores indicate stronger polarization. 
-2. conformal predictions. A cell will be predicted as one of [Polarized, Unpolarized, Intermdiate (similar to both Polarized and Unpolarized), Uncertain (dissimilar to both Polarized and Unpolarized)]. The conformal predictions are controlled by the parameter error_level. 
+2. conformal predictions. A cell will be predicted as one of [Polarized, Unpolarized, Intermediate (similar to both Polarized and Unpolarized), Uncertain (dissimilar to both Polarized and Unpolarized)]. The conformal predictions are controlled by the parameter error_level. 
 
 The scores and conformal predictions can be visualized by Seurat functions FeaturePlot, DimPlot, etc.
 
