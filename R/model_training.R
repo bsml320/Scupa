@@ -6,7 +6,7 @@ cosine_sim <- function(matrix)
   return(cosine_similarity_matrix)
 }
 
-# A helper function to calculate calibration scores for conformal prediction
+# A helper function to calculate calibration nonconformity scores for conformal prediction
 calculate_calibration_scores <- function(train_X,
                                          train_Y,
                                          classify_method='svr',
@@ -201,10 +201,13 @@ AssignStates <- function(object,
                          embedding='uce',
                          center_unpolar=TRUE)
 {
+  # Label cells with 'PBS' in 'cyt_display' as the 'unpolarized' state
   object$polar <- 'else'
   object$polar[object$cyt_display == 'PBS'] <- 'unpolarized'
   states <- names(state_list)
   min_dist_state <- dist_thres
+
+  # Extract the embedding matrix based on the specified embedding
   if(embedding %in% Reductions(object))
     emb_matrix <- t(Embeddings(object, reduction=embedding))
   else if(embedding %in% Assays(object))
@@ -216,11 +219,14 @@ AssignStates <- function(object,
     )
   unpolar_center <- apply(emb_matrix[,object$cyt_display == 'PBS'],1,mean)
   all_center <- apply(emb_matrix,1,mean)
+
+  # Choose the center to use based on the center_unpolar paramter
   if(center_unpolar)
     using_center <- unpolar_center
   else
     using_center <- all_center
 
+  # Iterate over each state to assign states to cells
   for(state in states)
   {
     message(paste('Assigning state:', state))
@@ -241,6 +247,7 @@ AssignStates <- function(object,
     {
       min_dist_state <- pmin(mean_dist_state, min_dist_state)
     }
+    # Filter cells with low correlation with others or low marker gene expression
     cell_state_final <- rownames(object@meta.data) %in% cell_state_filtered &
       mean_exp_marker > quantile(mean_exp_marker, marker_quantile)
     object$polar[cell_state_final] <- state
@@ -323,6 +330,7 @@ CalculateParams <- function(object,
                             semi_supervised=FALSE,
                             verbose=TRUE)
 {
+  # Check if the embedding is in the reductions or assays of the object
   if(embedding %in% Reductions(object))
     embs <- t(Embeddings(object, reduction=embedding))
   else if(embedding %in% Assays(object))
@@ -335,12 +343,15 @@ CalculateParams <- function(object,
   emb_means <- rowMeans(embs)
   emb_sds <- apply(embs, 1, sd)
   emb_means_unpolar <- rowMeans(embs[,object$polar == 'unpolarized'])
+  # Get PCs as input variables for machine learning models
   emb_loadings <- Loadings(object, reduction = 'pca')[rownames(embs), pc]
   state_train <- FetchData(object[,object$polar != 'else'],
                            c(paste('PC',pc,sep='_'),'polar'))
   models <- list()
   unpolar_responses <- list()
   calibration_quantiles <- list()
+
+  # Iterate over each state to train machine learning models
   for(state in sort(unique(state_train$polar[state_train$polar != 'unpolarized'])))
   {
     if(verbose)
@@ -420,6 +431,7 @@ CalculateParams <- function(object,
                                     type='prob')[,'1']
     }
 
+    #Calculate the calibration nonconformity scores for conformal prediction
     cal_scores <- calculate_calibration_scores(train_X,
                                                train_Y,
                                                classify_method,
@@ -427,12 +439,12 @@ CalculateParams <- function(object,
 
     models[[state]] <- model
     unpolar_responses[[state]] <- sort(unpolar_prediction)
-    # Calculate 1~99 quantiles of calibration scores
+    # Calculate 1~99 quantiles of calibration nonconformity scores
     calibration_quantiles[[state]] <- quantile(cal_scores,
                                       pmin(ceiling((1-seq(0.01,0.99,0.01)) *
                      (length(cal_scores)+1)) / length(cal_scores), 1))
   }
-
+  # Create a list to store all calculated parameters
   object_saved_params <- list(mean=emb_means,
                               sd=emb_sds,
                               mean_unpolar=emb_means_unpolar,

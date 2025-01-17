@@ -186,6 +186,7 @@ MeasurePolar <- function(object,
                          unpolarized_prob = FALSE,
                          verbose = TRUE)
 {
+  # Validate celltype
   if (!celltype %in% c(
     'B',
     'NK',
@@ -325,6 +326,7 @@ MeasurePolar <- function(object,
   df_polar <- data.frame(df_polar)
   rownames(df_polar) <- colnames(input_emb)
 
+  # Return the results as a dataframe or update the Seurat object
   if (return.df)
     return(df_polar)
 
