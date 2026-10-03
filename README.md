@@ -86,7 +86,7 @@ polar_params <- readRDS(url('https://github.com/bsml320/Scupa/raw/refs/heads/mas
 
 If you use Scupa, please consider citing following papers:
 
-* Liu W, Zhao Z. Scupa: Single-cell unified polarization assessment of immune cells using the single-cell foundation model. Bioinformatics. 2025;41(3):btaf090. doi: [10.1093/bioinformatics/btaf090](https://doi.org/10.1093/bioinformatics/btaf090)
-* Cui A, Huang T, Li S, et al. Dictionary of immune responses to cytokines at single-cell resolution. Nature. 2024;625(7994):377-384. doi: [10.1038/s41586-023-06816-9](https://doi.org/10.1038/s41586-023-06816-9)
-* Rosen Y, Roohani Y, et al. Universal Cell Embeddings: A Foundation Model for Cell Biology. bioRxiv. 2023. doi: [10.1101/2023.11.28.568918](https://doi.org/10.1101/2023.11.28.568918)
+* Liu W, Zhao Z. Scupa: Single-cell unified polarization assessment of immune cells using the single-cell foundation model. *Bioinformatics*. 2025;41(3):btaf090. doi: [10.1093/bioinformatics/btaf090](https://doi.org/10.1093/bioinformatics/btaf090)
+* Cui A, Huang T, Li S, et al. Dictionary of immune responses to cytokines at single-cell resolution. *Nature*. 2024;625(7994):377-384. doi: [10.1038/s41586-023-06816-9](https://doi.org/10.1038/s41586-023-06816-9)
+* Rosen Y, Roohani Y, Agrawal A, et al. Universal cell embedding provides a foundation model for cell biology. *Nature*. 2026;656(8126):183-191. doi: [10.1038/s41586-026-10689-z](https://doi.org/10.1038/s41586-026-10689-z)
 
